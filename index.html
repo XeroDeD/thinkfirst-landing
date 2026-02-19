@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         :root {
             --bg: #0a0a0a;
             --surface: #141414;
@@ -17,7 +16,6 @@
             --text-muted: #888;
             --accent: #fff;
         }
-
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
             background: var(--bg);
@@ -25,17 +23,32 @@
             line-height: 1.6;
             overflow-x: hidden;
         }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 24px;
+        /* LANG TOGGLE */
+        .lang-toggle {
+            display: flex;
+            gap: 4px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3px;
+            margin-right: 12px;
         }
-
-        .container-narrow {
-            max-width: 760px;
-            margin: 0 auto;
-            padding: 0 24px;
+        .lang-btn {
+            padding: 5px 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            background: var(--accent);
+            color: var(--bg);
         }
 
         /* NAV */
@@ -48,15 +61,13 @@
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
         }
-
         nav .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-
         .logo { font-size: 18px; font-weight: 700; letter-spacing: 2px; }
-
+        .nav-right { display: flex; align-items: center; }
         .nav-cta {
             padding: 10px 24px;
             background: var(--accent);
@@ -69,7 +80,6 @@
             transition: opacity 0.2s;
             text-decoration: none;
         }
-
         .nav-cta:hover { opacity: 0.85; }
 
         /* HERO */
@@ -82,19 +92,35 @@
             padding: 120px 24px 80px;
             position: relative;
         }
-
         .hero::before {
             content: '';
             position: absolute;
-            top: -100px;
-            left: 50%;
+            top: -100px; left: 50%;
             transform: translateX(-50%);
-            width: 800px;
-            height: 800px;
+            width: 800px; height: 800px;
             background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%);
             pointer-events: none;
         }
-
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            pointer-events: none;
+            animation: float linear infinite;
+            box-shadow: 0 0 6px rgba(255,255,255,0.1);
+        }
+        .particle.large {
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 15px rgba(255,255,255,0.06);
+        }
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            50% { transform: translateY(-50vh) translateX(20px) rotate(180deg); }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(-10px) rotate(360deg); opacity: 0; }
+        }
         .hero-badge {
             display: inline-block;
             padding: 6px 16px;
@@ -104,8 +130,12 @@
             color: var(--text-muted);
             margin-bottom: 32px;
             letter-spacing: 0.5px;
+            animation: pulse-border 2s ease-in-out infinite;
         }
-
+        @keyframes pulse-border {
+            0%, 100% { border-color: var(--border); }
+            50% { border-color: #555; }
+        }
         .hero h1 {
             font-size: clamp(44px, 7vw, 80px);
             font-weight: 800;
@@ -113,7 +143,6 @@
             line-height: 1.05;
             margin-bottom: 24px;
         }
-
         .hero h1 span {
             display: block;
             font-size: clamp(18px, 3vw, 26px);
@@ -123,7 +152,6 @@
             margin-top: 16px;
             line-height: 1.5;
         }
-
         .hero-sub {
             font-size: 17px;
             color: var(--text-muted);
@@ -131,14 +159,12 @@
             margin: 0 auto 40px;
             line-height: 1.7;
         }
-
         .hero-cta-group {
             display: flex;
             gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
         }
-
         .btn-primary {
             display: inline-block;
             padding: 16px 48px;
@@ -150,12 +176,10 @@
             text-decoration: none;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 30px rgba(255,255,255,0.1);
         }
-
         .btn-secondary {
             display: inline-block;
             padding: 16px 48px;
@@ -168,9 +192,7 @@
             border: 1px solid var(--border);
             transition: border-color 0.2s;
         }
-
         .btn-secondary:hover { border-color: #555; }
-
         .hero-stats {
             display: flex;
             gap: 48px;
@@ -178,520 +200,363 @@
             margin-top: 48px;
             flex-wrap: wrap;
         }
-
-        .hero-stat {
-            text-align: center;
-        }
-
-        .hero-stat-num {
-            font-size: 28px;
-            font-weight: 700;
-        }
-
-        .hero-stat-label {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
+        .hero-stat { text-align: center; }
+        .hero-stat-num { font-size: 28px; font-weight: 700; }
+        .hero-stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
 
         /* SECTION STYLES */
         section { padding: 100px 0; border-top: 1px solid var(--border); }
-
         .section-label {
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            margin-bottom: 16px;
+            font-size: 12px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: 2px; color: var(--text-muted); margin-bottom: 16px;
         }
-
         .section-title {
-            font-size: clamp(28px, 4vw, 40px);
-            font-weight: 700;
-            margin-bottom: 16px;
-            line-height: 1.2;
+            font-size: clamp(28px, 4vw, 40px); font-weight: 700;
+            margin-bottom: 16px; line-height: 1.2;
         }
-
         .section-sub {
-            font-size: 17px;
-            color: var(--text-muted);
-            max-width: 600px;
-            line-height: 1.7;
-            margin-bottom: 48px;
+            font-size: 17px; color: var(--text-muted); max-width: 600px;
+            line-height: 1.7; margin-bottom: 48px;
         }
 
         /* PAIN POINTS */
-        .pain-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 48px;
-            align-items: start;
-        }
-
-        .pain-list {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
+        .pain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+        .pain-list { display: flex; flex-direction: column; gap: 24px; }
         .pain-item {
-            padding: 24px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
+            padding: 24px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 14px; transition: border-color 0.3s, transform 0.3s;
         }
+        .pain-item:hover { border-color: #3a2020; transform: translateX(4px); }
+        .pain-item h3 { font-size: 16px; margin-bottom: 8px; }
+        .pain-item p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+        .pain-right { position: sticky; top: 120px; }
+        .pain-quote { font-size: 22px; font-weight: 600; line-height: 1.5; margin-bottom: 16px; }
 
-        .pain-item h3 {
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .pain-item p {
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .pain-right {
-            position: sticky;
-            top: 120px;
-        }
-
-        .pain-quote {
-            font-size: 22px;
-            font-weight: 600;
-            line-height: 1.5;
-            margin-bottom: 16px;
-        }
-
-        .pain-quote-author {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
+        /* SVG DIAGRAM */
+        .diagram-section { background: var(--surface); }
+        .diagram-container { text-align: center; }
+        .diagram-svg { max-width: 700px; width: 100%; margin: 0 auto; }
+        .diagram-svg text { font-family: -apple-system, system-ui, sans-serif; }
 
         /* BEFORE AFTER */
-        .before-after {
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .ba-grid {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 40px;
-            align-items: start;
-        }
-
-        .ba-col h3 {
-            font-size: 14px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 24px;
-        }
-
+        .before-after { background: var(--surface); }
+        .ba-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 40px; align-items: start; }
+        .ba-col h3 { font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px; }
         .ba-col.before h3 { color: #ff6b6b; }
         .ba-col.after h3 { color: #6bff8a; }
-
         .ba-item {
-            padding: 16px 20px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: var(--bg);
-            font-size: 14px;
-            margin-bottom: 12px;
-            line-height: 1.5;
+            padding: 16px 20px; border-radius: 10px; border: 1px solid var(--border);
+            background: var(--bg); font-size: 14px; margin-bottom: 12px; line-height: 1.5;
+            transition: transform 0.3s;
         }
-
+        .ba-item:hover { transform: translateX(4px); }
         .ba-col.before .ba-item { border-left: 3px solid #3a2020; }
         .ba-col.after .ba-item { border-left: 3px solid #203a20; }
-
-        .ba-divider {
-            width: 1px;
-            background: var(--border);
-            min-height: 300px;
-            position: relative;
-        }
-
+        .ba-divider { width: 1px; background: var(--border); min-height: 300px; position: relative; }
         .ba-divider::after {
-            content: 'VS';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--surface);
-            padding: 12px 8px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-muted);
-            letter-spacing: 1px;
+            content: 'VS'; position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%); background: var(--surface);
+            padding: 12px 8px; font-size: 12px; font-weight: 700;
+            color: var(--text-muted); letter-spacing: 1px;
         }
-
-        /* MODULES */
-        .module-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .module-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px 24px;
-            transition: border-color 0.3s, transform 0.2s;
-        }
-
-        .module-card:hover {
-            border-color: #444;
-            transform: translateY(-4px);
-        }
-
-        .module-num {
-            font-size: 48px;
-            font-weight: 800;
-            color: var(--surface-2);
-            -webkit-text-stroke: 1px #333;
-            margin-bottom: 12px;
-        }
-
-        .module-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
-        .module-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
-        .module-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
-
-        .module-lessons { font-size: 13px; color: var(--text-muted); line-height: 1.8; }
-        .module-lessons span { display: block; }
-
-        /* HOW IT WORKS */
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-        }
-
-        .step {
-            text-align: center;
-            padding: 40px 24px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-        }
-
-        .step-num {
-            width: 56px;
-            height: 56px;
-            border-radius: 14px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 22px;
-            font-weight: 700;
-        }
-
-        .step h3 { font-size: 18px; margin-bottom: 10px; }
-        .step p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
-
-        /* WHO IS THIS FOR */
-        .for-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .for-card {
-            padding: 28px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-        }
-
-        .for-card h3 { font-size: 16px; margin-bottom: 10px; }
-        .for-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
         /* FEATURES */
-        .feature-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
+        .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .feature {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 28px;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 28px; transition: border-color 0.3s, transform 0.3s;
         }
-
+        .feature:hover { border-color: #444; transform: translateY(-3px); }
+        .feature-icon {
+            width: 48px; height: 48px; border-radius: 12px; background: var(--bg);
+            border: 1px solid var(--border); display: flex; align-items: center;
+            justify-content: center; margin-bottom: 16px; color: var(--text-muted);
+        }
         .feature h3 { font-size: 16px; margin-bottom: 10px; }
         .feature p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
 
-        /* GAMIFICATION */
-        .badge-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
+        /* MID CTA */
+        .mid-cta {
+            padding: 80px 0; text-align: center; background: var(--surface);
+            border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+            position: relative; overflow: hidden;
+        }
+        .mid-cta::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.01), transparent, rgba(255,255,255,0.01), transparent);
+            animation: rotate-bg 20s linear infinite;
+        }
+        @keyframes rotate-bg { 100% { transform: rotate(360deg); } }
+        .mid-cta > * { position: relative; }
+        .mid-cta p { font-size: 20px; font-weight: 600; margin-bottom: 20px; }
+        .mid-cta .sub { font-size: 15px; font-weight: 400; color: var(--text-muted); margin-bottom: 24px; }
+
+        /* MODULES */
+        .module-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .module-card {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 16px; padding: 32px 24px;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .module-card:hover { border-color: #444; transform: translateY(-4px); }
+        .module-icon {
+            width: 44px; height: 44px; border-radius: 10px; background: var(--bg);
+            border: 1px solid var(--border); display: flex; align-items: center;
+            justify-content: center; margin-bottom: 16px; color: var(--text-muted);
+        }
+        .module-num { font-size: 48px; font-weight: 800; color: var(--surface-2); -webkit-text-stroke: 1px #333; margin-bottom: 12px; }
+        .module-name { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .module-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+        .module-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+        .module-lessons { font-size: 13px; color: var(--text-muted); line-height: 1.8; }
+        .module-lessons span { display: block; }
+
+        /* STEPS */
+        .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+        .step {
+            text-align: center; padding: 40px 24px; background: var(--surface);
+            border: 1px solid var(--border); border-radius: 16px;
+            transition: transform 0.3s; position: relative;
+        }
+        .step:hover { transform: translateY(-4px); }
+        .step-num {
+            width: 56px; height: 56px; border-radius: 14px; background: var(--bg);
+            border: 1px solid var(--border); display: flex; align-items: center;
+            justify-content: center; margin: 0 auto 20px; font-size: 22px; font-weight: 700;
+        }
+        .step h3 { font-size: 18px; margin-bottom: 10px; }
+        .step p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+        .step-arrow {
+            position: absolute; right: -20px; top: 50%;
+            transform: translateY(-50%); color: var(--border); font-size: 20px;
         }
 
+        /* FOR GRID */
+        .for-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .for-card {
+            padding: 28px; background: var(--surface); border: 1px solid var(--border);
+            border-radius: 14px; transition: border-color 0.3s, transform 0.3s;
+        }
+        .for-card:hover { border-color: #444; transform: translateY(-3px); }
+        .for-card h3 { font-size: 16px; margin-bottom: 10px; }
+        .for-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+        /* BADGES */
+        .badge-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
         .badge {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px 20px;
-            text-align: center;
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 12px; padding: 24px 20px; text-align: center;
+            transition: border-color 0.3s, transform 0.3s;
         }
-
-        .badge-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-            color: var(--text-muted);
-        }
-
-        .badge-icon .material-icons-outlined {
-            font-size: 32px;
-        }
+        .badge:hover { border-color: #444; transform: translateY(-3px); }
+        .badge-icon { font-size: 32px; margin-bottom: 12px; color: var(--text-muted); }
+        .badge-icon .material-icons-outlined { font-size: 32px; }
         .badge h4 { font-size: 14px; margin-bottom: 4px; }
         .badge p { font-size: 12px; color: var(--text-muted); }
 
         /* OBJECTIONS */
-        .objections-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .objection {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            overflow: hidden;
-        }
-
+        .objections-grid { display: flex; flex-direction: column; gap: 16px; }
+        .objection { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
         .objection-q {
-            padding: 20px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: background 0.2s;
+            padding: 20px 24px; font-size: 16px; font-weight: 600;
+            cursor: pointer; display: flex; justify-content: space-between;
+            align-items: center; transition: background 0.2s;
         }
-
         .objection-q:hover { background: var(--surface-2); }
+        .objection-q::after { content: '+'; font-size: 20px; color: var(--text-muted); transition: transform 0.3s; }
+        .objection.open .objection-q::after { transform: rotate(45deg); }
+        .objection-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .objection.open .objection-a { max-height: 300px; }
+        .objection-a-inner { padding: 0 24px 20px; font-size: 15px; color: var(--text-muted); line-height: 1.7; }
 
-        .objection-q::after {
-            content: '+';
-            font-size: 20px;
-            color: var(--text-muted);
-            transition: transform 0.3s;
-        }
-
-        .objection.open .objection-q::after {
-            transform: rotate(45deg);
-        }
-
-        .objection-a {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .objection.open .objection-a {
-            max-height: 300px;
-        }
-
-        .objection-a-inner {
-            padding: 0 24px 20px;
-            font-size: 15px;
-            color: var(--text-muted);
-            line-height: 1.7;
-        }
-
-        /* FINAL CTA */
+        /* CTA SECTION */
         .cta-section {
-            padding: 120px 0;
-            text-align: center;
-            border-top: 1px solid var(--border);
-            position: relative;
+            padding: 120px 0; text-align: center;
+            border-top: 1px solid var(--border); position: relative;
         }
-
         .cta-section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 600px; height: 600px;
+            content: ''; position: absolute; top: 0; left: 50%;
+            transform: translateX(-50%); width: 600px; height: 600px;
             background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 70%);
             pointer-events: none;
         }
-
         .cta-section .section-title { margin-bottom: 12px; }
-
-        .cta-section .section-sub {
-            margin: 0 auto 36px;
-            text-align: center;
-        }
-
+        .cta-section .section-sub { margin: 0 auto 36px; text-align: center; }
         .cta-form {
-            display: flex;
-            gap: 12px;
-            max-width: 480px;
-            margin: 0 auto;
+            display: flex; gap: 12px; max-width: 480px; margin: 0 auto;
         }
-
         .cta-form input {
-            flex: 1;
-            padding: 16px 20px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: var(--text);
-            font-size: 16px;
-            outline: none;
+            flex: 1; padding: 16px 20px; background: var(--surface);
+            border: 1px solid var(--border); border-radius: 12px;
+            color: var(--text); font-size: 16px; outline: none;
             transition: border-color 0.2s;
         }
-
+        .cta-form input::placeholder { color: var(--text-muted); }
         .cta-form input:focus { border-color: #555; }
-
         .cta-form button {
-            padding: 16px 32px;
-            background: var(--accent);
-            color: var(--bg);
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s;
-            white-space: nowrap;
+            padding: 16px 32px; background: var(--accent); color: var(--bg);
+            border: none; border-radius: 12px; font-size: 16px; font-weight: 600;
+            cursor: pointer; transition: opacity 0.2s; white-space: nowrap;
         }
-
         .cta-form button:hover { opacity: 0.85; }
+        .cta-note { margin-top: 16px; font-size: 13px; color: var(--text-muted); }
+        .cta-trust { display: flex; gap: 32px; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
+        .cta-trust-item { font-size: 13px; color: var(--text-muted); }
 
-        .cta-note {
-            margin-top: 16px;
-            font-size: 13px;
-            color: var(--text-muted);
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+            z-index: 1000; display: none; align-items: center;
+            justify-content: center; padding: 24px;
+            opacity: 0; transition: opacity 0.3s;
         }
-
-        .cta-trust {
-            display: flex;
-            gap: 32px;
-            justify-content: center;
-            margin-top: 32px;
-            flex-wrap: wrap;
+        .modal-overlay.show { display: flex; opacity: 1; }
+        .modal {
+            background: var(--surface); border: 1px solid var(--border);
+            border-radius: 20px; padding: 48px 40px; max-width: 480px;
+            width: 100%; text-align: center;
+            transform: scale(0.9); transition: transform 0.3s;
         }
-
-        .cta-trust-item {
-            font-size: 13px;
-            color: var(--text-muted);
+        .modal-overlay.show .modal { transform: scale(1); }
+        .modal-icon {
+            width: 64px; height: 64px; border-radius: 16px;
+            background: var(--bg); border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px; color: var(--text-muted);
         }
+        .modal h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; }
+        .modal p { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 8px; }
+        .modal-highlight {
+            display: inline-block; padding: 8px 20px; background: var(--bg);
+            border: 1px solid var(--border); border-radius: 10px;
+            font-size: 14px; font-weight: 600; margin-top: 16px; color: var(--text);
+        }
+        .modal-close {
+            margin-top: 24px; padding: 12px 32px; background: var(--accent);
+            color: var(--bg); border: none; border-radius: 10px;
+            font-size: 15px; font-weight: 600; cursor: pointer; transition: opacity 0.2s;
+        }
+        .modal-close:hover { opacity: 0.85; }
 
         /* FOOTER */
         footer {
-            padding: 40px 0;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        /* MID-CTA BANNER */
-        .mid-cta {
-            padding: 60px 0;
-            text-align: center;
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .mid-cta p {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        .mid-cta .sub {
-            font-size: 15px;
-            font-weight: 400;
-            color: var(--text-muted);
-            margin-bottom: 24px;
+            padding: 40px 0; border-top: 1px solid var(--border);
+            text-align: center; font-size: 13px; color: var(--text-muted);
         }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
             .pain-grid, .module-grid, .steps,
-            .feature-grid, .for-grid, .ba-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .badge-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
+            .feature-grid, .for-grid, .ba-grid { grid-template-columns: 1fr; }
+            .badge-grid { grid-template-columns: 1fr 1fr; }
             .ba-divider { display: none; }
             .cta-form { flex-direction: column; }
             .hero-stats { gap: 32px; }
             .cta-trust { gap: 20px; }
+            .step-arrow { display: none; }
+            .lang-toggle { margin-right: 8px; }
+            .modal { padding: 36px 24px; }
         }
 
         /* ANIMATIONS */
         .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
+            opacity: 0; transform: translateY(30px);
             transition: opacity 0.6s ease, transform 0.6s ease;
         }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .fade-in-left {
+            opacity: 0; transform: translateX(-30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
+        .fade-in-left.visible { opacity: 1; transform: translateX(0); }
+
+        .fade-in-right {
+            opacity: 0; transform: translateX(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .fade-in-right.visible { opacity: 1; transform: translateX(0); }
+
+        .scale-in {
+            opacity: 0; transform: scale(0.9);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .scale-in.visible { opacity: 1; transform: scale(1); }
+
+        /* Stagger children */
+        .stagger > *:nth-child(1) { transition-delay: 0s; }
+        .stagger > *:nth-child(2) { transition-delay: 0.1s; }
+        .stagger > *:nth-child(3) { transition-delay: 0.2s; }
+        .stagger > *:nth-child(4) { transition-delay: 0.3s; }
+        .stagger > *:nth-child(5) { transition-delay: 0.4s; }
+        .stagger > *:nth-child(6) { transition-delay: 0.5s; }
+
+        /* Counter animation */
+        .count-up { display: inline-block; }
     </style>
 </head>
 <body>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <div class="modal-icon">
+            <span class="material-icons-outlined" style="font-size: 32px;">schedule</span>
+        </div>
+        <h3 data-ru="Все места заняты" data-en="All spots taken">Все места заняты</h3>
+        <p data-ru="Спасибо за интерес! К сожалению, все места в текущем потоке уже заняты." data-en="Thanks for your interest! Unfortunately, all spots in the current cohort are already taken.">Спасибо за интерес! К сожалению, все места в текущем потоке уже заняты.</p>
+        <p data-ru="Ты в списке — свяжемся в ближайшее время." data-en="You're on the list — we'll be in touch soon.">Ты в списке — свяжемся в ближайшее время.</p>
+        <div class="modal-highlight" data-ru="Следующий поток — через 3 месяца" data-en="Next cohort — in 3 months">Следующий поток — через 3 месяца</div>
+        <br>
+        <button class="modal-close" onclick="closeModal()" data-ru="Понятно" data-en="Got it">Понятно</button>
+    </div>
+</div>
 
 <!-- NAV -->
 <nav>
     <div class="container">
         <div class="logo">THINK FIRST</div>
-        <a href="#signup" class="nav-cta">Записаться</a>
+        <div class="nav-right">
+            <div class="lang-toggle">
+                <button class="lang-btn active" onclick="setLang('ru')">RU</button>
+                <button class="lang-btn" onclick="setLang('en')">EN</button>
+            </div>
+            <a href="#signup" class="nav-cta" data-ru="Записаться" data-en="Sign up">Записаться</a>
+        </div>
     </div>
 </nav>
 
 <!-- HERO -->
-<section class="hero" style="border: none;">
+<section class="hero" style="border: none;" id="hero-section">
     <div>
-        <div class="hero-badge">Набор в бета-группу открыт</div>
+        <div class="hero-badge" data-ru="Набор в бета-группу открыт" data-en="Beta group enrollment open">Набор в бета-группу открыт</div>
         <h1>
             THINK FIRST
-            <span>Научись думать так, чтобы AI<br>работал на тебя, а не вместо тебя.</span>
+            <span data-ru="Научись думать так, чтобы AI<br>работал на тебя, а не вместо тебя." data-en="Learn to think so AI<br>works for you, not instead of you.">Научись думать так, чтобы AI<br>работал на тебя, а не вместо тебя.</span>
         </h1>
-        <p class="hero-sub">
+        <p class="hero-sub" data-ru="6-недельный курс структурного и критического мышления. Ты научишься формулировать задачи, видеть ошибки в ответах AI и получать результат с первого раза." data-en="6-week course in structural and critical thinking. Learn to formulate tasks, spot AI mistakes, and get results on the first try.">
             6-недельный курс структурного и критического мышления.
             Ты научишься формулировать задачи, видеть ошибки в ответах AI
             и получать результат с первого раза.
         </p>
         <div class="hero-cta-group">
-            <a href="#signup" class="btn-primary">Попасть в бета-группу</a>
-            <a href="#program" class="btn-secondary">Смотреть программу</a>
+            <a href="#signup" class="btn-primary" data-ru="Попасть в бета-группу" data-en="Join beta group">Попасть в бета-группу</a>
+            <a href="#program" class="btn-secondary" data-ru="Смотреть программу" data-en="View program">Смотреть программу</a>
         </div>
         <div class="hero-stats">
             <div class="hero-stat">
-                <div class="hero-stat-num">17</div>
-                <div class="hero-stat-label">уроков</div>
+                <div class="hero-stat-num"><span class="count-up" data-target="17">0</span></div>
+                <div class="hero-stat-label" data-ru="уроков" data-en="lessons">уроков</div>
             </div>
             <div class="hero-stat">
-                <div class="hero-stat-num">6</div>
-                <div class="hero-stat-label">недель</div>
+                <div class="hero-stat-num"><span class="count-up" data-target="6">0</span></div>
+                <div class="hero-stat-label" data-ru="недель" data-en="weeks">недель</div>
             </div>
             <div class="hero-stat">
-                <div class="hero-stat-num">80%</div>
-                <div class="hero-stat-label">практики</div>
+                <div class="hero-stat-num"><span class="count-up" data-target="80">0</span>%</div>
+                <div class="hero-stat-label" data-ru="практики" data-en="practice">практики</div>
             </div>
         </div>
     </div>
@@ -703,33 +568,90 @@
         <div class="pain-grid">
             <div class="pain-list">
                 <div class="fade-in">
-                    <div class="section-label">Проблема</div>
-                    <div class="section-title">У всех одинаковый AI.<br>Результаты — разные.</div>
-                    <div class="section-sub">Те, кто умеет думать структурно, получают от AI в разы больше. Остальные тратят часы на переделки и получают посредственный результат.</div>
+                    <div class="section-label" data-ru="Проблема" data-en="Problem">Проблема</div>
+                    <div class="section-title" data-ru="У всех одинаковый AI.<br>Результаты — разные." data-en="Everyone has the same AI.<br>Results differ.">У всех одинаковый AI.<br>Результаты — разные.</div>
+                    <div class="section-sub" data-ru="Те, кто умеет думать структурно, получают от AI в разы больше. Остальные тратят часы на переделки и получают посредственный результат." data-en="Those who think structurally get far more from AI. Others spend hours redoing and get mediocre results.">Те, кто умеет думать структурно, получают от AI в разы больше. Остальные тратят часы на переделки и получают посредственный результат.</div>
                 </div>
                 <div class="pain-item fade-in">
-                    <h3>Тратишь время на переписку с AI</h3>
-                    <p>10 сообщений туда-сюда, а результат всё равно не тот. Проблема не в AI — проблема в формулировке задачи.</p>
+                    <h3 data-ru="Тратишь время на переписку с AI" data-en="Wasting time messaging AI">Тратишь время на переписку с AI</h3>
+                    <p data-ru="10 сообщений туда-сюда, а результат всё равно не тот. Проблема не в AI — проблема в формулировке задачи." data-en="10 messages back and forth, still wrong result. The problem isn't AI — it's how you frame the task.">10 сообщений туда-сюда, а результат всё равно не тот. Проблема не в AI — проблема в формулировке задачи.</p>
                 </div>
                 <div class="pain-item fade-in">
-                    <h3>Не можешь объяснить, чего хочешь</h3>
-                    <p>В голове картинка есть, а на словах — «ну, сделай красиво». Ни AI, ни человек так не поймёт.</p>
+                    <h3 data-ru="Не можешь объяснить, чего хочешь" data-en="Can't explain what you want">Не можешь объяснить, чего хочешь</h3>
+                    <p data-ru="В голове картинка есть, а на словах — «ну, сделай красиво». Ни AI, ни человек так не поймёт." data-en="You have a picture in your head, but in words — 'just make it nice'. Neither AI nor people understand that.">В голове картинка есть, а на словах — «ну, сделай красиво». Ни AI, ни человек так не поймёт.</p>
                 </div>
                 <div class="pain-item fade-in">
-                    <h3>Принимаешь первый ответ за правду</h3>
-                    <p>AI звучит уверенно. Но уверенный тон — это не гарантия правильности. Без критического фильтра ты берёшь ошибки за чистую монету.</p>
+                    <h3 data-ru="Принимаешь первый ответ за правду" data-en="Taking the first answer as truth">Принимаешь первый ответ за правду</h3>
+                    <p data-ru="AI звучит уверенно. Но уверенный тон — это не гарантия правильности. Без критического фильтра ты берёшь ошибки за чистую монету." data-en="AI sounds confident. But confidence doesn't mean correctness. Without a critical filter, you take errors at face value.">AI звучит уверенно. Но уверенный тон — это не гарантия правильности. Без критического фильтра ты берёшь ошибки за чистую монету.</p>
                 </div>
                 <div class="pain-item fade-in">
-                    <h3>Задачи кажутся слишком большими</h3>
-                    <p>«Написать курсовую», «запустить проект» — звучит как гора. А на деле — это 5-7 конкретных шагов. Нужно просто уметь разбивать.</p>
+                    <h3 data-ru="Задачи кажутся слишком большими" data-en="Tasks feel overwhelming">Задачи кажутся слишком большими</h3>
+                    <p data-ru="«Написать курсовую», «запустить проект» — звучит как гора. А на деле — это 5-7 конкретных шагов." data-en="'Write a thesis', 'launch a project' — sounds like a mountain. In reality — it's 5-7 specific steps.">«Написать курсовую», «запустить проект» — звучит как гора. А на деле — это 5-7 конкретных шагов.</p>
                 </div>
             </div>
-            <div class="pain-right fade-in">
-                <div class="pain-quote">
+            <div class="pain-right fade-in-right">
+                <div class="pain-quote" data-ru="«Навык формулировать мысль точно — это не про AI. Это про то, как ты думаешь. AI просто делает разницу между "умеет" и "не умеет" видимой мгновенно.»" data-en="'The skill of precise formulation isn't about AI. It's about how you think. AI just makes the gap between "can" and "can't" visible instantly.'">
                     «Навык формулировать мысль точно — это не про AI. Это про то, как ты думаешь. AI просто делает разницу между "умеет" и "не умеет" видимой мгновенно.»
                 </div>
+                <!-- Illustration SVG -->
+                <svg viewBox="0 0 300 200" fill="none" style="width:100%;margin-top:32px;opacity:0.6">
+                    <rect x="20" y="30" width="120" height="140" rx="12" stroke="#333" stroke-width="1.5"/>
+                    <rect x="35" y="50" width="90" height="8" rx="4" fill="#2a2a2a"/>
+                    <rect x="35" y="68" width="70" height="8" rx="4" fill="#2a2a2a"/>
+                    <rect x="35" y="86" width="80" height="8" rx="4" fill="#2a2a2a"/>
+                    <circle cx="75" cy="140" r="16" stroke="#333" stroke-width="1.5"/>
+                    <text x="75" y="145" fill="#555" font-size="14" text-anchor="middle">?</text>
+                    <path d="M155 100 L185 100" stroke="#333" stroke-width="1.5" stroke-dasharray="4"/>
+                    <polygon points="185,95 195,100 185,105" fill="#333"/>
+                    <rect x="210" y="50" width="70" height="100" rx="12" stroke="#444" stroke-width="1.5"/>
+                    <rect x="222" y="68" width="46" height="6" rx="3" fill="#333"/>
+                    <rect x="222" y="82" width="36" height="6" rx="3" fill="#333"/>
+                    <rect x="222" y="96" width="42" height="6" rx="3" fill="#333"/>
+                    <circle cx="245" cy="128" r="12" stroke="#6bff8a" stroke-width="1.5" opacity="0.5"/>
+                    <path d="M239 128 L243 132 L251 124" stroke="#6bff8a" stroke-width="1.5" opacity="0.5"/>
+                </svg>
             </div>
         </div>
+    </div>
+</section>
+
+<!-- DIAGRAM: How thinking works -->
+<section class="diagram-section">
+    <div class="container diagram-container">
+        <div class="section-label fade-in" data-ru="Как это работает" data-en="How it works">Как это работает</div>
+        <div class="section-title fade-in" style="text-align:center;margin-bottom:48px" data-ru="От хаоса в голове — к точному результату" data-en="From chaos in your head — to precise results">От хаоса в голове — к точному результату</div>
+        <svg class="diagram-svg scale-in" viewBox="0 0 700 120">
+            <!-- Step boxes -->
+            <rect x="0" y="20" width="120" height="80" rx="12" fill="#1e1e1e" stroke="#2a2a2a" stroke-width="1.5"/>
+            <text x="60" y="52" fill="#888" font-size="10" text-anchor="middle" font-weight="600">01</text>
+            <text x="60" y="72" fill="#e5e5e5" font-size="12" text-anchor="middle" font-weight="600" data-ru="Идея" data-en="Idea">Идея</text>
+
+            <path d="M130 60 L158 60" stroke="#333" stroke-width="1.5"/>
+            <polygon points="158,56 166,60 158,64" fill="#333"/>
+
+            <rect x="175" y="20" width="120" height="80" rx="12" fill="#1e1e1e" stroke="#2a2a2a" stroke-width="1.5"/>
+            <text x="235" y="52" fill="#888" font-size="10" text-anchor="middle" font-weight="600">02</text>
+            <text x="235" y="72" fill="#e5e5e5" font-size="12" text-anchor="middle" font-weight="600" data-ru="Структура" data-en="Structure">Структура</text>
+
+            <path d="M305 60 L333 60" stroke="#333" stroke-width="1.5"/>
+            <polygon points="333,56 341,60 333,64" fill="#333"/>
+
+            <rect x="350" y="20" width="120" height="80" rx="12" fill="#1e1e1e" stroke="#2a2a2a" stroke-width="1.5"/>
+            <text x="410" y="52" fill="#888" font-size="10" text-anchor="middle" font-weight="600">03</text>
+            <text x="410" y="72" fill="#e5e5e5" font-size="12" text-anchor="middle" font-weight="600" data-ru="Запрос" data-en="Prompt">Запрос</text>
+
+            <path d="M480 60 L508 60" stroke="#333" stroke-width="1.5"/>
+            <polygon points="508,56 516,60 508,64" fill="#333"/>
+
+            <rect x="525" y="20" width="120" height="80" rx="12" fill="#1e1e1e" stroke="#6bff8a" stroke-width="1.5" opacity="0.6"/>
+            <text x="585" y="52" fill="#888" font-size="10" text-anchor="middle" font-weight="600">04</text>
+            <text x="585" y="72" fill="#6bff8a" font-size="12" text-anchor="middle" font-weight="600" opacity="0.8" data-ru="Результат" data-en="Result">Результат</text>
+
+            <!-- Loop arrow -->
+            <path d="M585 100 L585 115 L235 115 L235 100" stroke="#333" stroke-width="1" stroke-dasharray="4" fill="none"/>
+            <polygon points="231,100 235,92 239,100" fill="#333"/>
+            <text x="410" y="113" fill="#555" font-size="9" text-anchor="middle" data-ru="итерация" data-en="iteration">итерация</text>
+        </svg>
     </div>
 </section>
 
@@ -737,24 +659,24 @@
 <section class="before-after">
     <div class="container">
         <div style="text-align: center; margin-bottom: 48px;">
-            <div class="section-label fade-in">Трансформация</div>
-            <div class="section-title fade-in">Одна и та же задача. Два подхода.</div>
+            <div class="section-label fade-in" data-ru="Трансформация" data-en="Transformation">Трансформация</div>
+            <div class="section-title fade-in" data-ru="Одна и та же задача. Два подхода." data-en="Same task. Two approaches.">Одна и та же задача. Два подхода.</div>
         </div>
         <div class="ba-grid fade-in">
             <div class="ba-col before">
-                <h3>Без курса</h3>
-                <div class="ba-item">«Сделай мне сайт для бизнеса»</div>
-                <div class="ba-item">«Напиши курсовую по маркетингу»</div>
-                <div class="ba-item">«Это плохо, переделай всё»</div>
-                <div class="ba-item">«Почему получилось не то что я хотел?»</div>
+                <h3 data-ru="Без курса" data-en="Without course">Без курса</h3>
+                <div class="ba-item" data-ru="«Сделай мне сайт для бизнеса»" data-en="'Make me a website for business'">«Сделай мне сайт для бизнеса»</div>
+                <div class="ba-item" data-ru="«Напиши курсовую по маркетингу»" data-en="'Write a marketing thesis'">«Напиши курсовую по маркетингу»</div>
+                <div class="ba-item" data-ru="«Это плохо, переделай всё»" data-en="'This is bad, redo everything'">«Это плохо, переделай всё»</div>
+                <div class="ba-item" data-ru="«Почему получилось не то что я хотел?»" data-en="'Why didn't I get what I wanted?'">«Почему получилось не то что я хотел?»</div>
             </div>
             <div class="ba-divider"></div>
             <div class="ba-col after">
-                <h3>После курса</h3>
-                <div class="ba-item">«Лендинг для кофейни. Секции: меню, адрес, бронь. Тёмная тема, минимализм, без стоковых фото.»</div>
-                <div class="ba-item">«Курсовая: digital-маркетинг для малого бизнеса. Фокус на ROI, 3 кейса, 15-20 страниц, стиль — аналитический.»</div>
-                <div class="ba-item">«Во втором абзаце замени абстрактный пример на конкретный кейс с цифрами.»</div>
-                <div class="ba-item">«Я точно описал результат, проверил ответ и довёл за 2 итерации.»</div>
+                <h3 data-ru="После курса" data-en="After course">После курса</h3>
+                <div class="ba-item" data-ru="«Лендинг для кофейни. Секции: меню, адрес, бронь. Тёмная тема, минимализм, без стоковых фото.»" data-en="'Coffee shop landing. Sections: menu, location, booking. Dark theme, minimalism, no stock photos.'">«Лендинг для кофейни. Секции: меню, адрес, бронь. Тёмная тема, минимализм, без стоковых фото.»</div>
+                <div class="ba-item" data-ru="«Курсовая: digital-маркетинг для малого бизнеса. Фокус на ROI, 3 кейса, 15-20 страниц, стиль — аналитический.»" data-en="'Thesis: digital marketing for small business. Focus on ROI, 3 cases, 15-20 pages, analytical style.'">«Курсовая: digital-маркетинг для малого бизнеса. Фокус на ROI, 3 кейса, 15-20 страниц, стиль — аналитический.»</div>
+                <div class="ba-item" data-ru="«Во втором абзаце замени абстрактный пример на конкретный кейс с цифрами.»" data-en="'In the second paragraph, replace the abstract example with a specific case with numbers.'">«Во втором абзаце замени абстрактный пример на конкретный кейс с цифрами.»</div>
+                <div class="ba-item" data-ru="«Я точно описал результат, проверил ответ и довёл за 2 итерации.»" data-en="'I described the result precisely, verified the answer, and refined it in 2 iterations.'">«Я точно описал результат, проверил ответ и довёл за 2 итерации.»</div>
             </div>
         </div>
     </div>
@@ -763,25 +685,29 @@
 <!-- WHAT YOU GET -->
 <section>
     <div class="container">
-        <div class="section-label fade-in">Что ты получишь</div>
-        <div class="section-title fade-in">Не шаблоны. Навык.</div>
-        <div class="section-sub fade-in">Мы не даём готовые промпты, которые устареют через месяц. Мы учим способу мышления, который работает с любым AI, с любыми людьми, в любой ситуации.</div>
-        <div class="feature-grid">
+        <div class="section-label fade-in" data-ru="Что ты получишь" data-en="What you'll get">Что ты получишь</div>
+        <div class="section-title fade-in" data-ru="Не шаблоны. Навык." data-en="Not templates. A skill.">Не шаблоны. Навык.</div>
+        <div class="section-sub fade-in" data-ru="Мы не даём готовые промпты, которые устареют через месяц. Мы учим способу мышления, который работает с любым AI, с любыми людьми, в любой ситуации." data-en="We don't give ready-made prompts that expire in a month. We teach a way of thinking that works with any AI, any people, any situation.">Мы не даём готовые промпты, которые устареют через месяц. Мы учим способу мышления, который работает с любым AI, с любыми людьми, в любой ситуации.</div>
+        <div class="feature-grid stagger">
             <div class="feature fade-in">
-                <h3>Ясность мышления</h3>
-                <p>Научишься превращать размытые идеи в конкретные, выполнимые задачи. Это работает не только с AI — с коллегами, заказчиками, преподавателями.</p>
+                <div class="feature-icon"><span class="material-icons-outlined">center_focus_strong</span></div>
+                <h3 data-ru="Ясность мышления" data-en="Clarity of thinking">Ясность мышления</h3>
+                <p data-ru="Научишься превращать размытые идеи в конкретные, выполнимые задачи. Это работает не только с AI — с коллегами, заказчиками, преподавателями." data-en="Learn to turn vague ideas into concrete, actionable tasks. Works not just with AI — with colleagues, clients, professors.">Научишься превращать размытые идеи в конкретные, выполнимые задачи. Это работает не только с AI — с коллегами, заказчиками, преподавателями.</p>
             </div>
             <div class="feature fade-in">
-                <h3>Точность формулировок</h3>
-                <p>Поймёшь, как одно слово меняет результат. Научишься выбирать слова, которые не оставляют пространства для неправильной интерпретации.</p>
+                <div class="feature-icon"><span class="material-icons-outlined">edit_note</span></div>
+                <h3 data-ru="Точность формулировок" data-en="Precision of language">Точность формулировок</h3>
+                <p data-ru="Поймёшь, как одно слово меняет результат. Научишься выбирать слова, которые не оставляют пространства для неправильной интерпретации." data-en="Understand how one word changes the result. Learn to choose words that leave no room for misinterpretation.">Поймёшь, как одно слово меняет результат. Научишься выбирать слова, которые не оставляют пространства для неправильной интерпретации.</p>
             </div>
             <div class="feature fade-in">
-                <h3>Критический фильтр</h3>
-                <p>Перестанешь принимать первый ответ на веру. Научишься находить ошибки, проверять факты и задавать правильные уточняющие вопросы.</p>
+                <div class="feature-icon"><span class="material-icons-outlined">verified</span></div>
+                <h3 data-ru="Критический фильтр" data-en="Critical filter">Критический фильтр</h3>
+                <p data-ru="Перестанешь принимать первый ответ на веру. Научишься находить ошибки, проверять факты и задавать правильные уточняющие вопросы." data-en="Stop taking the first answer at face value. Learn to find errors, verify facts, and ask the right follow-up questions.">Перестанешь принимать первый ответ на веру. Научишься находить ошибки, проверять факты и задавать правильные уточняющие вопросы.</p>
             </div>
             <div class="feature fade-in">
-                <h3>Навык итерации</h3>
-                <p>Узнаешь, как за 2-3 точных корректировки довести любой результат до нужного. Без «перепиши всё заново».</p>
+                <div class="feature-icon"><span class="material-icons-outlined">autorenew</span></div>
+                <h3 data-ru="Навык итерации" data-en="Iteration skill">Навык итерации</h3>
+                <p data-ru="Узнаешь, как за 2-3 точных корректировки довести любой результат до нужного. Без «перепиши всё заново»." data-en="Learn how 2-3 precise corrections can bring any result to where you need it. No 'rewrite everything from scratch'.">Узнаешь, как за 2-3 точных корректировки довести любой результат до нужного. Без «перепиши всё заново».</p>
             </div>
         </div>
     </div>
@@ -790,83 +716,60 @@
 <!-- MID CTA -->
 <div class="mid-cta">
     <div class="container fade-in">
-        <p>Это навык, который будет работать следующие 20 лет.</p>
-        <div class="sub">Независимо от того, какой AI появится завтра.</div>
-        <a href="#signup" class="btn-primary">Хочу в бета-группу</a>
+        <p data-ru="Это навык, который будет работать следующие 20 лет." data-en="This is a skill that will work for the next 20 years.">Это навык, который будет работать следующие 20 лет.</p>
+        <div class="sub" data-ru="Независимо от того, какой AI появится завтра." data-en="Regardless of what AI comes tomorrow.">Независимо от того, какой AI появится завтра.</div>
+        <a href="#signup" class="btn-primary" data-ru="Хочу в бета-группу" data-en="Join beta group">Хочу в бета-группу</a>
     </div>
 </div>
 
 <!-- PROGRAM -->
 <section id="program">
     <div class="container">
-        <div class="section-label fade-in">Программа</div>
-        <div class="section-title fade-in">6 модулей. 17 уроков. Ноль воды.</div>
-        <div class="section-sub fade-in">Каждый урок — это вызов: короткое видео + практика в AI-тренажёре. Теория занимает 5 минут. Остальное — ты делаешь сам.</div>
-        <div class="module-grid">
+        <div class="section-label fade-in" data-ru="Программа" data-en="Program">Программа</div>
+        <div class="section-title fade-in" data-ru="6 модулей. 17 уроков. Ноль воды." data-en="6 modules. 17 lessons. Zero fluff.">6 модулей. 17 уроков. Ноль воды.</div>
+        <div class="section-sub fade-in" data-ru="Каждый урок — это вызов: короткое видео + практика в AI-тренажёре. Теория занимает 5 минут. Остальное — ты делаешь сам." data-en="Each lesson is a challenge: short video + practice in AI trainer. Theory takes 5 minutes. The rest — you do yourself.">Каждый урок — это вызов: короткое видео + практика в AI-тренажёре. Теория занимает 5 минут. Остальное — ты делаешь сам.</div>
+        <div class="module-grid stagger">
             <div class="module-card fade-in">
+                <div class="module-icon"><span class="material-icons-outlined">center_focus_strong</span></div>
                 <div class="module-num">01</div>
-                <div class="module-name">Фокус</div>
-                <div class="module-sub">Формулировка проблемы</div>
-                <div class="module-desc">Из «хочу что-то» — в конкретную задачу. Учишься видеть разницу между размытым и точным.</div>
-                <div class="module-lessons">
-                    <span>Сломанный телефон</span>
-                    <span>Снайпер</span>
-                    <span>Фоторобот</span>
-                </div>
+                <div class="module-name" data-ru="Фокус" data-en="Focus">Фокус</div>
+                <div class="module-sub" data-ru="Формулировка проблемы" data-en="Problem formulation">Формулировка проблемы</div>
+                <div class="module-desc" data-ru="Из «хочу что-то» — в конкретную задачу. Учишься видеть разницу между размытым и точным." data-en="From 'I want something' to a concrete task. Learn to see the difference between vague and precise.">Из «хочу что-то» — в конкретную задачу. Учишься видеть разницу между размытым и точным.</div>
             </div>
             <div class="module-card fade-in">
+                <div class="module-icon"><span class="material-icons-outlined">account_tree</span></div>
                 <div class="module-num">02</div>
-                <div class="module-name">Структура</div>
-                <div class="module-sub">Декомпозиция</div>
-                <div class="module-desc">Любая большая задача — это набор маленьких. Учишься разбивать, приоритизировать и отсекать лишнее.</div>
-                <div class="module-lessons">
-                    <span>Лего</span>
-                    <span>Что сначала?</span>
-                    <span>Бритва</span>
-                </div>
+                <div class="module-name" data-ru="Структура" data-en="Structure">Структура</div>
+                <div class="module-sub" data-ru="Декомпозиция" data-en="Decomposition">Декомпозиция</div>
+                <div class="module-desc" data-ru="Любая большая задача — это набор маленьких. Учишься разбивать, приоритизировать и отсекать лишнее." data-en="Any big task is a set of small ones. Learn to break down, prioritize, and cut the excess.">Любая большая задача — это набор маленьких. Учишься разбивать, приоритизировать и отсекать лишнее.</div>
             </div>
             <div class="module-card fade-in">
+                <div class="module-icon"><span class="material-icons-outlined">tune</span></div>
                 <div class="module-num">03</div>
-                <div class="module-name">Контекст</div>
-                <div class="module-sub">Точность и семантика</div>
-                <div class="module-desc">Сколько информации дать? Какие слова выбрать? Учишься говорить ровно столько, сколько нужно.</div>
-                <div class="module-lessons">
-                    <span>Шум</span>
-                    <span>GPS</span>
-                    <span>Два языка</span>
-                </div>
+                <div class="module-name" data-ru="Контекст" data-en="Context">Контекст</div>
+                <div class="module-sub" data-ru="Точность и семантика" data-en="Precision & semantics">Точность и семантика</div>
+                <div class="module-desc" data-ru="Сколько информации дать? Какие слова выбрать? Учишься говорить ровно столько, сколько нужно." data-en="How much info to give? Which words to choose? Learn to say exactly as much as needed.">Сколько информации дать? Какие слова выбрать? Учишься говорить ровно столько, сколько нужно.</div>
             </div>
             <div class="module-card fade-in">
+                <div class="module-icon"><span class="material-icons-outlined">fact_check</span></div>
                 <div class="module-num">04</div>
-                <div class="module-name">Критика</div>
-                <div class="module-sub">Критическое мышление</div>
-                <div class="module-desc">AI звучит уверенно, даже когда ошибается. Учишься проверять, сомневаться и находить слабые места.</div>
-                <div class="module-lessons">
-                    <span>Красивая ложь</span>
-                    <span>Дырявая логика</span>
-                    <span>Перепроверка</span>
-                </div>
+                <div class="module-name" data-ru="Критика" data-en="Critical eye">Критика</div>
+                <div class="module-sub" data-ru="Критическое мышление" data-en="Critical thinking">Критическое мышление</div>
+                <div class="module-desc" data-ru="AI звучит уверенно, даже когда ошибается. Учишься проверять, сомневаться и находить слабые места." data-en="AI sounds confident even when wrong. Learn to verify, question, and find weak spots.">AI звучит уверенно, даже когда ошибается. Учишься проверять, сомневаться и находить слабые места.</div>
             </div>
             <div class="module-card fade-in">
+                <div class="module-icon"><span class="material-icons-outlined">autorenew</span></div>
                 <div class="module-num">05</div>
-                <div class="module-name">Доработка</div>
-                <div class="module-sub">Улучшение результата</div>
-                <div class="module-desc">Первый результат — черновик. Учишься давать точную обратную связь и доводить до нужного за 2-3 шага.</div>
-                <div class="module-lessons">
-                    <span>Черновик — не мусор</span>
-                    <span>Скальпель, не кувалда</span>
-                    <span>Конвейер</span>
-                </div>
+                <div class="module-name" data-ru="Доработка" data-en="Refinement">Доработка</div>
+                <div class="module-sub" data-ru="Улучшение результата" data-en="Improving results">Улучшение результата</div>
+                <div class="module-desc" data-ru="Первый результат — черновик. Учишься давать точную обратную связь и доводить до нужного за 2-3 шага." data-en="First result is a draft. Learn to give precise feedback and refine in 2-3 steps.">Первый результат — черновик. Учишься давать точную обратную связь и доводить до нужного за 2-3 шага.</div>
             </div>
             <div class="module-card fade-in">
+                <div class="module-icon"><span class="material-icons-outlined">rocket_launch</span></div>
                 <div class="module-num">06</div>
-                <div class="module-name">Проект</div>
-                <div class="module-sub">Финальная работа</div>
-                <div class="module-desc">Берёшь реальную задачу из своей жизни и проходишь весь цикл. Видишь свой прогресс от первого урока до последнего.</div>
-                <div class="module-lessons">
-                    <span>Свой проект</span>
-                    <span>Рефлексия</span>
-                </div>
+                <div class="module-name" data-ru="Проект" data-en="Project">Проект</div>
+                <div class="module-sub" data-ru="Финальная работа" data-en="Final work">Финальная работа</div>
+                <div class="module-desc" data-ru="Берёшь реальную задачу из своей жизни и проходишь весь цикл. Видишь свой прогресс от первого урока до последнего." data-en="Take a real task from your life and go through the full cycle. See your progress from first lesson to last.">Берёшь реальную задачу из своей жизни и проходишь весь цикл. Видишь свой прогресс от первого урока до последнего.</div>
             </div>
         </div>
     </div>
@@ -875,24 +778,26 @@
 <!-- HOW IT WORKS -->
 <section>
     <div class="container">
-        <div class="section-label fade-in">Формат</div>
-        <div class="section-title fade-in">Смотришь. Делаешь. Растёшь.</div>
-        <div class="section-sub fade-in">Никаких лекций на 2 часа. Каждый урок — короткое видео и практика в AI-тренажёре с мгновенной обратной связью.</div>
-        <div class="steps">
+        <div class="section-label fade-in" data-ru="Формат" data-en="Format">Формат</div>
+        <div class="section-title fade-in" data-ru="Смотришь. Делаешь. Растёшь." data-en="Watch. Do. Grow.">Смотришь. Делаешь. Растёшь.</div>
+        <div class="section-sub fade-in" data-ru="Никаких лекций на 2 часа. Каждый урок — короткое видео и практика в AI-тренажёре с мгновенной обратной связью." data-en="No 2-hour lectures. Each lesson — a short video and practice in AI trainer with instant feedback.">Никаких лекций на 2 часа. Каждый урок — короткое видео и практика в AI-тренажёре с мгновенной обратной связью.</div>
+        <div class="steps stagger">
             <div class="step fade-in">
                 <div class="step-num">1</div>
-                <h3>Смотришь видео</h3>
-                <p>5-10 минут. Теория через истории и живые примеры. Без воды, без академического тона. Как разговор с умным другом.</p>
+                <h3 data-ru="Смотришь видео" data-en="Watch video">Смотришь видео</h3>
+                <p data-ru="5-10 минут. Теория через истории и живые примеры. Без воды, без академического тона." data-en="5-10 minutes. Theory through stories and real examples. No filler, no academic tone.">5-10 минут. Теория через истории и живые примеры. Без воды, без академического тона.</p>
+                <span class="step-arrow material-icons-outlined">arrow_forward</span>
             </div>
             <div class="step fade-in">
                 <div class="step-num">2</div>
-                <h3>Решаешь в тренажёре</h3>
-                <p>Пишешь запрос — видишь результат AI в реальном времени. Тренажёр показывает, как твои слова влияют на ответ. Сразу понимаешь, что работает.</p>
+                <h3 data-ru="Решаешь в тренажёре" data-en="Solve in trainer">Решаешь в тренажёре</h3>
+                <p data-ru="Пишешь запрос — видишь результат AI в реальном времени. Сразу понимаешь, что работает." data-en="Write a prompt — see AI result in real time. Instantly understand what works.">Пишешь запрос — видишь результат AI в реальном времени. Сразу понимаешь, что работает.</p>
+                <span class="step-arrow material-icons-outlined">arrow_forward</span>
             </div>
             <div class="step fade-in">
                 <div class="step-num">3</div>
-                <h3>Видишь прогресс</h3>
-                <p>XP за задания, уровни, ачивки. В конце курса сравниваешь свой первый запрос с последним — и видишь, как изменилось мышление.</p>
+                <h3 data-ru="Видишь прогресс" data-en="See progress">Видишь прогресс</h3>
+                <p data-ru="Сравниваешь свой первый запрос с последним — и видишь, как изменилось мышление." data-en="Compare your first prompt with your latest — and see how your thinking has changed.">Сравниваешь свой первый запрос с последним — и видишь, как изменилось мышление.</p>
             </div>
         </div>
     </div>
@@ -901,25 +806,25 @@
 <!-- WHO IS THIS FOR -->
 <section>
     <div class="container">
-        <div class="section-label fade-in">Для кого</div>
-        <div class="section-title fade-in">Если узнаёшь себя — тебе сюда.</div>
+        <div class="section-label fade-in" data-ru="Для кого" data-en="Who it's for">Для кого</div>
+        <div class="section-title fade-in" data-ru="Если узнаёшь себя — тебе сюда." data-en="If you recognize yourself — this is for you.">Если узнаёшь себя — тебе сюда.</div>
         <div class="section-sub fade-in"></div>
-        <div class="for-grid">
+        <div class="for-grid stagger">
             <div class="for-card fade-in">
-                <h3>Студент, который хочет быть эффективнее</h3>
-                <p>Курсовые, рефераты, подготовка к экзаменам — всё это можно делать быстрее и качественнее, если умеешь правильно ставить задачу AI.</p>
+                <h3 data-ru="Студент, который хочет быть эффективнее" data-en="Student who wants to be more effective">Студент, который хочет быть эффективнее</h3>
+                <p data-ru="Курсовые, рефераты, подготовка к экзаменам — всё это можно делать быстрее и качественнее, если умеешь правильно ставить задачу AI." data-en="Coursework, papers, exam prep — all can be done faster and better when you know how to properly task AI.">Курсовые, рефераты, подготовка к экзаменам — всё это можно делать быстрее и качественнее, если умеешь правильно ставить задачу AI.</p>
             </div>
             <div class="for-card fade-in">
-                <h3>Начинающий специалист</h3>
-                <p>На работе ценят тех, кто умеет чётко формулировать задачи и не тратить время команды на «а что имелось в виду?». Этот навык выделяет.</p>
+                <h3 data-ru="Начинающий специалист" data-en="Early-career professional">Начинающий специалист</h3>
+                <p data-ru="На работе ценят тех, кто умеет чётко формулировать задачи и не тратить время команды." data-en="Workplaces value those who can clearly formulate tasks and not waste the team's time.">На работе ценят тех, кто умеет чётко формулировать задачи и не тратить время команды.</p>
             </div>
             <div class="for-card fade-in">
-                <h3>Тот, кто хочет запустить своё</h3>
-                <p>Стартап, блог, канал, фриланс — AI становится твоей командой, если ты умеешь им управлять. Один человек с правильным мышлением заменяет отдел.</p>
+                <h3 data-ru="Тот, кто хочет запустить своё" data-en="Aspiring entrepreneur">Тот, кто хочет запустить своё</h3>
+                <p data-ru="Стартап, блог, канал, фриланс — AI становится твоей командой, если ты умеешь им управлять." data-en="Startup, blog, channel, freelance — AI becomes your team when you know how to manage it.">Стартап, блог, канал, фриланс — AI становится твоей командой, если ты умеешь им управлять.</p>
             </div>
             <div class="for-card fade-in">
-                <h3>Тот, кому «не заходят» курсы по AI</h3>
-                <p>Если ты пробовал курсы по промптам и чувствовал, что это набор шаблонов без понимания — здесь по-другому. Мы учим думать, а не копировать.</p>
+                <h3 data-ru="Тот, кому «не заходят» курсы по AI" data-en="Those tired of typical AI courses">Тот, кому «не заходят» курсы по AI</h3>
+                <p data-ru="Если ты пробовал курсы по промптам и чувствовал, что это набор шаблонов без понимания — здесь по-другому." data-en="If you've tried prompt courses and felt they were just templates without understanding — this is different.">Если ты пробовал курсы по промптам и чувствовал, что это набор шаблонов без понимания — здесь по-другому.</p>
             </div>
         </div>
     </div>
@@ -928,60 +833,60 @@
 <!-- GAMIFICATION -->
 <section>
     <div class="container">
-        <div class="section-label fade-in">Мотивация</div>
-        <div class="section-title fade-in">Прогресс, который видно.</div>
-        <div class="section-sub fade-in">Каждое задание — вызов. Каждый день — шаг вперёд. Система прогресса помогает не бросить на полпути.</div>
-        <div class="badge-grid fade-in">
-            <div class="badge">
+        <div class="section-label fade-in" data-ru="Мотивация" data-en="Motivation">Мотивация</div>
+        <div class="section-title fade-in" data-ru="Прогресс, который видно." data-en="Progress you can see.">Прогресс, который видно.</div>
+        <div class="section-sub fade-in" data-ru="Каждое задание — вызов. Каждый день — шаг вперёд. Система прогресса помогает не бросить на полпути." data-en="Every task is a challenge. Every day — a step forward. Progress system keeps you going.">Каждое задание — вызов. Каждый день — шаг вперёд. Система прогресса помогает не бросить на полпути.</div>
+        <div class="badge-grid stagger">
+            <div class="badge fade-in">
                 <div class="badge-icon"><span class="material-icons-outlined">track_changes</span></div>
-                <h4>Точность</h4>
-                <p>5 заданий подряд с первой попытки</p>
+                <h4 data-ru="Точность" data-en="Precision">Точность</h4>
+                <p data-ru="5 заданий подряд с первой попытки" data-en="5 tasks in a row on first try">5 заданий подряд с первой попытки</p>
             </div>
-            <div class="badge">
+            <div class="badge fade-in">
                 <div class="badge-icon"><span class="material-icons-outlined">fact_check</span></div>
-                <h4>Анализ</h4>
-                <p>Нашёл 10 ошибок в ответах AI</p>
+                <h4 data-ru="Анализ" data-en="Analysis">Анализ</h4>
+                <p data-ru="Нашёл 10 ошибок в ответах AI" data-en="Found 10 errors in AI answers">Нашёл 10 ошибок в ответах AI</p>
             </div>
-            <div class="badge">
+            <div class="badge fade-in">
                 <div class="badge-icon"><span class="material-icons-outlined">short_text</span></div>
-                <h4>Лаконичность</h4>
-                <p>Решил задачу минимумом слов</p>
+                <h4 data-ru="Лаконичность" data-en="Brevity">Лаконичность</h4>
+                <p data-ru="Решил задачу минимумом слов" data-en="Solved task with minimum words">Решил задачу минимумом слов</p>
             </div>
-            <div class="badge">
+            <div class="badge fade-in">
                 <div class="badge-icon"><span class="material-icons-outlined">trending_up</span></div>
-                <h4>Дисциплина</h4>
-                <p>7 дней практики без пропусков</p>
+                <h4 data-ru="Дисциплина" data-en="Discipline">Дисциплина</h4>
+                <p data-ru="7 дней практики без пропусков" data-en="7 days of practice without skipping">7 дней практики без пропусков</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- FAQ / OBJECTIONS -->
+<!-- FAQ -->
 <section>
     <div class="container">
-        <div class="section-label fade-in">Вопросы</div>
-        <div class="section-title fade-in">Частые сомнения</div>
+        <div class="section-label fade-in" data-ru="Вопросы" data-en="Questions">Вопросы</div>
+        <div class="section-title fade-in" data-ru="Частые сомнения" data-en="Common doubts">Частые сомнения</div>
         <div class="section-sub fade-in"></div>
         <div class="objections-grid fade-in">
             <div class="objection">
-                <div class="objection-q">Это очередной курс по ChatGPT?</div>
-                <div class="objection-a"><div class="objection-a-inner">Нет. Мы не учим нажимать кнопки в конкретном инструменте. Мы учим думать — структурно, точно, критически. Это навык, который работает с любым AI, любым собеседником, любой задачей. ChatGPT — это просто площадка для практики.</div></div>
+                <div class="objection-q" data-ru="Это очередной курс по ChatGPT?" data-en="Is this another ChatGPT course?">Это очередной курс по ChatGPT?</div>
+                <div class="objection-a"><div class="objection-a-inner" data-ru="Нет. Мы не учим нажимать кнопки в конкретном инструменте. Мы учим думать — структурно, точно, критически. Это навык, который работает с любым AI, любым собеседником, любой задачей." data-en="No. We don't teach you to press buttons in a specific tool. We teach you to think — structurally, precisely, critically. A skill that works with any AI, any person, any task.">Нет. Мы не учим нажимать кнопки в конкретном инструменте. Мы учим думать — структурно, точно, критически. Это навык, который работает с любым AI, любым собеседником, любой задачей.</div></div>
             </div>
             <div class="objection">
-                <div class="objection-q">Зачем мне это, если AI и так всё умеет?</div>
-                <div class="objection-a"><div class="objection-a-inner">AI умеет выполнять задачи. Но задачу ставишь ты. Если ты ставишь размыто — получаешь размытый результат. Если точно — получаешь то, что нужно, с первого раза. Разница между «пользоваться AI» и «получать от AI максимум» — это и есть навык мышления.</div></div>
+                <div class="objection-q" data-ru="Зачем мне это, если AI и так всё умеет?" data-en="Why do I need this if AI can do everything?">Зачем мне это, если AI и так всё умеет?</div>
+                <div class="objection-a"><div class="objection-a-inner" data-ru="AI умеет выполнять задачи. Но задачу ставишь ты. Если ты ставишь размыто — получаешь размытый результат. Разница между «пользоваться AI» и «получать от AI максимум» — это навык мышления." data-en="AI can execute tasks. But you set the task. Vague input = vague output. The difference between 'using AI' and 'getting maximum from AI' is a thinking skill.">AI умеет выполнять задачи. Но задачу ставишь ты. Если ты ставишь размыто — получаешь размытый результат. Разница между «пользоваться AI» и «получать от AI максимум» — это навык мышления.</div></div>
             </div>
             <div class="objection">
-                <div class="objection-q">У меня нет технического бэкграунда. Потяну?</div>
-                <div class="objection-a"><div class="objection-a-inner">Курс не требует знаний программирования или технических навыков. Всё, что нужно — уметь писать текст и быть готовым думать. Примеры из жизни: учёба, работа, личные проекты.</div></div>
+                <div class="objection-q" data-ru="У меня нет технического бэкграунда. Потяну?" data-en="I have no technical background. Can I handle it?">У меня нет технического бэкграунда. Потяну?</div>
+                <div class="objection-a"><div class="objection-a-inner" data-ru="Курс не требует знаний программирования. Всё, что нужно — уметь писать текст и быть готовым думать." data-en="The course doesn't require programming knowledge. All you need — ability to write text and willingness to think.">Курс не требует знаний программирования. Всё, что нужно — уметь писать текст и быть готовым думать.</div></div>
             </div>
             <div class="objection">
-                <div class="objection-q">Сколько времени нужно в день?</div>
-                <div class="objection-a"><div class="objection-a-inner">20-30 минут. Видео — 5-10 минут, практика в тренажёре — 15-20 минут. Можно заниматься в своём темпе, но ежедневная практика даёт лучший результат.</div></div>
+                <div class="objection-q" data-ru="Сколько времени нужно в день?" data-en="How much time per day?">Сколько времени нужно в день?</div>
+                <div class="objection-a"><div class="objection-a-inner" data-ru="20-30 минут. Видео — 5-10 минут, практика в тренажёре — 15-20 минут." data-en="20-30 minutes. Video — 5-10 min, trainer practice — 15-20 min.">20-30 минут. Видео — 5-10 минут, практика в тренажёре — 15-20 минут.</div></div>
             </div>
             <div class="objection">
-                <div class="objection-q">Что если через год появится новый AI и всё изменится?</div>
-                <div class="objection-a"><div class="objection-a-inner">Именно поэтому мы учим не промпты, а мышление. Инструменты меняются, способность ясно мыслить и точно формулировать — нет. Этот навык работал 50 лет назад с людьми, работает сейчас с AI, и будет работать с тем, что появится завтра.</div></div>
+                <div class="objection-q" data-ru="Что если через год появится новый AI?" data-en="What if a new AI appears in a year?">Что если через год появится новый AI?</div>
+                <div class="objection-a"><div class="objection-a-inner" data-ru="Именно поэтому мы учим не промпты, а мышление. Инструменты меняются, способность ясно мыслить — нет." data-en="That's exactly why we teach thinking, not prompts. Tools change, the ability to think clearly doesn't.">Именно поэтому мы учим не промпты, а мышление. Инструменты меняются, способность ясно мыслить — нет.</div></div>
             </div>
         </div>
     </div>
@@ -990,49 +895,88 @@
 <!-- FINAL CTA -->
 <section class="cta-section" id="signup">
     <div class="container">
-        <div class="section-title fade-in">Попади в первый поток.</div>
-        <div class="section-sub fade-in">Бета-группа — бесплатно. Оставь почту, мы напишем когда откроется набор.</div>
+        <div class="section-title fade-in" data-ru="Попади в первый поток." data-en="Join the first cohort.">Попади в первый поток.</div>
+        <div class="section-sub fade-in" data-ru="Оставь свой Telegram — мы напишем когда откроется набор." data-en="Leave your Telegram — we'll message you when enrollment opens.">Оставь свой Telegram — мы напишем когда откроется набор.</div>
         <form class="cta-form fade-in" onsubmit="handleSubmit(event)">
-            <input type="email" placeholder="Твоя почта" required>
-            <button type="submit">Записаться</button>
+            <input type="text" placeholder="@username" required id="tg-input">
+            <button type="submit" data-ru="Записаться" data-en="Sign up">Записаться</button>
         </form>
-        <p class="cta-note fade-in">Без спама. Одно письмо, когда будет готово.</p>
+        <p class="cta-note fade-in" data-ru="Без спама. Одно сообщение, когда будет готово." data-en="No spam. One message when it's ready.">Без спама. Одно сообщение, когда будет готово.</p>
         <div class="cta-trust fade-in">
-            <span class="cta-trust-item">6 недель</span>
-            <span class="cta-trust-item">17 уроков</span>
-            <span class="cta-trust-item">AI-тренажёр</span>
-            <span class="cta-trust-item">80% практики</span>
+            <span class="cta-trust-item" data-ru="6 недель" data-en="6 weeks">6 недель</span>
+            <span class="cta-trust-item" data-ru="17 уроков" data-en="17 lessons">17 уроков</span>
+            <span class="cta-trust-item" data-ru="AI-тренажёр" data-en="AI trainer">AI-тренажёр</span>
+            <span class="cta-trust-item" data-ru="80% практики" data-en="80% practice">80% практики</span>
         </div>
     </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-    <div class="container">
-        THINK FIRST &copy; 2025
-    </div>
+    <div class="container">THINK FIRST &copy; 2025</div>
 </footer>
 
 <script>
-    // Scroll animations
+    // Intersection Observer for all animations
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) entry.target.classList.add('visible');
         });
     }, { threshold: 0.1 });
 
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right, .scale-in').forEach(el => observer.observe(el));
 
-    // Form
+    // Counter animation
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const target = parseInt(el.dataset.target);
+                let current = 0;
+                const step = target / 30;
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) { current = target; clearInterval(timer); }
+                    el.textContent = Math.round(current);
+                }, 30);
+                counterObserver.unobserve(el);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.count-up').forEach(el => counterObserver.observe(el));
+
+    // Particles in hero
+    const hero = document.getElementById('hero-section');
+    for (let i = 0; i < 45; i++) {
+        const p = document.createElement('div');
+        const isLarge = Math.random() > 0.7;
+        p.className = isLarge ? 'particle large' : 'particle';
+        const size = isLarge ? (Math.random() * 8 + 6) : (Math.random() * 5 + 3);
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.bottom = '-10px';
+        p.style.animationDuration = (Math.random() * 12 + 6) + 's';
+        p.style.animationDelay = (Math.random() * 8) + 's';
+        p.style.opacity = (Math.random() * 0.5 + 0.3).toFixed(2);
+        hero.appendChild(p);
+    }
+
+    // Form submit -> modal
     function handleSubmit(e) {
         e.preventDefault();
-        const input = e.target.querySelector('input');
-        const btn = e.target.querySelector('button');
-        btn.textContent = 'Готово!';
-        btn.style.background = '#6bff8a';
+        const input = document.getElementById('tg-input');
         input.value = '';
-        setTimeout(() => { btn.textContent = 'Записаться'; btn.style.background = ''; }, 2000);
+        document.getElementById('modal').classList.add('show');
     }
+
+    function closeModal() {
+        document.getElementById('modal').classList.remove('show');
+    }
+
+    document.getElementById('modal').addEventListener('click', (e) => {
+        if (e.target === e.currentTarget) closeModal();
+    });
 
     // FAQ accordion
     document.querySelectorAll('.objection-q').forEach(q => {
@@ -1052,6 +996,25 @@
             document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
         });
     });
+
+    // Language switching
+    let currentLang = 'ru';
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+        document.querySelector(`.lang-btn[onclick="setLang('${lang}')"]`).classList.add('active');
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+            const text = el.getAttribute('data-' + lang);
+            if (el.tagName === 'INPUT') {
+                el.placeholder = text;
+            } else {
+                el.innerHTML = text;
+            }
+        });
+    }
 </script>
 
 </body>
