@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="6-недельный курс структурного и критического мышления. Научись формулировать задачи так, чтобы AI работал на тебя.">
+    <meta property="og:title" content="THINK FIRST — Курс мышления для эпохи AI">
+    <meta property="og:description" content="Научись думать так, чтобы AI работал на тебя, а не вместо тебя. 6 недель, 17 уроков, 80% практики.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://thinkfirst.club">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <title>THINK FIRST — Курс мышления для эпохи AI</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
     <style>
@@ -448,16 +454,40 @@
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
+            .container { padding: 0 16px; }
+            section { padding: 64px 0; }
+            .hero { padding: 100px 16px 60px; min-height: auto; }
+            .hero h1 { letter-spacing: -1px; }
+            .hero-sub { font-size: 15px; }
+            .hero-cta-group { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-secondary { width: 100%; text-align: center; padding: 14px 32px; }
+            .hero-stats { gap: 24px; }
+            .hero-stat-num { font-size: 24px; }
             .pain-grid, .module-grid, .steps,
             .feature-grid, .for-grid, .ba-grid { grid-template-columns: 1fr; }
             .badge-grid { grid-template-columns: 1fr 1fr; }
             .ba-divider { display: none; }
             .cta-form { flex-direction: column; }
-            .hero-stats { gap: 32px; }
-            .cta-trust { gap: 20px; }
+            .cta-trust { gap: 16px; flex-direction: column; align-items: center; }
             .step-arrow { display: none; }
             .lang-toggle { margin-right: 8px; }
-            .modal { padding: 36px 24px; }
+            .lang-btn { padding: 4px 10px; font-size: 12px; }
+            .nav-cta { padding: 8px 16px; font-size: 13px; }
+            .logo { font-size: 16px; }
+            .modal { padding: 32px 20px; }
+            .modal h3 { font-size: 18px; }
+            .section-title { font-size: 24px; }
+            .section-sub { font-size: 15px; }
+            .module-num { font-size: 36px; }
+            .module-name { font-size: 18px; }
+            .pain-right { position: static; }
+            .pain-quote { font-size: 18px; }
+            .mid-cta p { font-size: 17px; }
+            .diagram-svg { overflow-x: auto; }
+        }
+        @media (max-width: 380px) {
+            .badge-grid { grid-template-columns: 1fr; }
+            .hero-stats { flex-direction: column; gap: 16px; }
         }
 
         /* ANIMATIONS */
